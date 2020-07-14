@@ -22,11 +22,14 @@ public class Main {
 
         Stream<People> averageMan = peoples.stream();
         double result = averageMan.filter(people -> people.getSex() == Sex.MAN).mapToInt(People::getAge).average().getAsDouble();
-        // 'OptionalDouble.getAsDouble()' without 'isPresent()' check предупреждение в IDEA.
+        // Optional обертывает результат операции. Если данных в стриме нет, то будет исключение "NoSuchElementException"
+        // Чтобы избежать появления этого исключения, необходимо сделать проверку наличия значения в Optional с помощью метода isPresent
+        // true - если есть значение, false - нет значения.
+        // Имеются также другие для обработки: orElse, orElseGet, orElseThrow
         System.out.println(result);
 
-        Stream<People> potencialWorks = peoples.stream();
-        long countWorks = potencialWorks.filter(people -> (people.getSex() == Sex.MAN && (people.getAge() >= 18 & people.getAge() <= 65))
+        Stream<People> potentialWorks = peoples.stream();
+        long countWorks = potentialWorks.filter(people -> (people.getSex() == Sex.MAN && (people.getAge() >= 18 & people.getAge() <= 65))
                 || people.getSex() == Sex.WOMEN && (people.getAge() >= 18 & people.getAge() <= 60))
                 .count();
         System.out.println(countWorks);
